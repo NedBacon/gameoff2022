@@ -17,9 +17,9 @@ public class ClickedObject : MonoBehaviour {
 
         if(Input.GetMouseButtonDown(0)) {
             if(thisObject == "x") {
-                PanelManager.ClosePanel();
+                panelM.ClosePanel();
             } else {
-                PanelManager.OpenPanel(thisObject);
+                panelM.OpenPanel(thisObject);
             }
         }
 

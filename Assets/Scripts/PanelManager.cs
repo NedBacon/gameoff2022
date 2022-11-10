@@ -4,38 +4,51 @@ using UnityEngine;
 
 public class PanelManager : MonoBehaviour {
 
-    static private bool panelOpen;
-    static private GameObject cancelObject;
+    private bool panelOpen;
+    private GameObject cancelObject;
+    private PanelGame[] panels;
 
     private void Awake() {
         
+        // or just add it all in inspector?
         cancelObject = GameObject.Find("x");
+        panels = new PanelGame[cancelObject.transform.childCount];
+        for(int i = 0; i < cancelObject.transform.childCount; i++) {
+            PanelGame child = cancelObject.transform.GetChild(i).gameObject.GetComponent<PanelGame>();
+            panels[i] = child;
+            child.gameObject.SetActive(false);
+        }
         cancelObject.SetActive(false);
 
     }
 
-    static public void OpenPanel(string objectClicked) {
+    public void OpenPanel(string objectClicked) {
 
         if(!panelOpen) {
 
             panelOpen = true;
-            cancelObject.SetActive(true);
-            Sprite objectS = GameObject.Find("_Manager/_Sprites/" + objectClicked).GetComponent<SpriteRenderer>().sprite;
-            cancelObject.transform.Find("item").GetComponent<SpriteRenderer>().sprite = objectS;
-            Debug.Log("Opening Panel for " + objectClicked);
+            foreach(PanelGame panel in panels) {
+                if(objectClicked == panel.panelID) {
+                    Debug.Log(panel.gameObject.name);
+                    panel.gameObject.SetActive(true);
+                    cancelObject.SetActive(true);
+                }
+            }
 
         }
 
     }
 
-    static public void ClosePanel() {
+    public void ClosePanel() {
 
         if(!panelOpen) {
             return;
         }
         panelOpen = false;
+        foreach(Transform child in cancelObject.GetComponentInChildren<Transform>()) {
+            child.gameObject.SetActive(false);
+        }
         cancelObject.SetActive(false);
-        Debug.Log("Closing current panel");
 
     }
     
