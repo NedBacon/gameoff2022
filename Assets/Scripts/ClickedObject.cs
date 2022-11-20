@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ClickedObject : MonoBehaviour {
 
-    [SerializeField] private string thisObject;
+    public string thisObject;
     PanelManager panelM;
     
     private void Awake() {
