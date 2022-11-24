@@ -6,8 +6,9 @@ public class PanelManager : MonoBehaviour {
 
     private bool panelOpen;
     private GameObject cancelObject;
-    private GameObject panelGameGO;
+    static public GameObject panelGameGO;
     private GameObject[] panels;
+    static public GameObject debuffsGO;
 
     private void Awake() {
         
@@ -25,7 +26,8 @@ public class PanelManager : MonoBehaviour {
 
         panelGameGO = GameObject.Find("_Manager/_Panels");
         panelGameGO.SetActive(false);
-        
+        debuffsGO = GameObject.Find("_Manager/_Debuffs");
+        debuffsGO.SetActive(false);
 
     }
 

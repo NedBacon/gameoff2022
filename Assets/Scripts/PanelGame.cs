@@ -9,11 +9,14 @@ public class PanelGame : MonoBehaviour {
     public SpriteRenderer[] panelBacks;
     public Sprite upSprite;
     public Sprite downSprite;
+    public Sprite leftSprite;
+    public Sprite rightSprite;
     public GameObject textPF;
     PanelManager panelM;
     private Transform dragButtonGroup;
     private GameObject textGO;
     private string currentGame;
+    public static int buttonsAmount;
 
     private void Awake() {
         
@@ -22,18 +25,26 @@ public class PanelGame : MonoBehaviour {
 
         panelM = GameObject.Find("_Manager").GetComponent<PanelManager>();
 
+        buttonsAmount = 5;
+
     }
     
     private void OnEnable() {
         
-        textGO = GameObject.Instantiate(textPF, new Vector3(0, 0, 90), Quaternion.identity, GameObject.Find("Text Stuff/Canvas").transform);
+        textGO = GameObject.Instantiate(textPF, new Vector3(0, 0, 90), Quaternion.identity, GameObject.Find("Canvas").transform);
         
-        switch(Random.Range(0, 2)) {
+        switch(Random.Range(0, 4)) {
             case 0 :
                 Game0();
                 break;
             case 1 :
                 Game1();
+                break;
+            case 2 :
+                Game2();
+                break;
+            case 3 :
+                Game3();
                 break;
         }
 
@@ -58,7 +69,7 @@ public class PanelGame : MonoBehaviour {
 
         // set up drag buttons in random places
         dragButtonGroup.gameObject.SetActive(true);
-        for(int i = 0; i < dragButtonGroup.childCount; i ++) {
+        for(int i = 0; i < 4; i ++) {
             GameObject button = dragButtonGroup.GetChild(i).gameObject;
             button.transform.position = new Vector3(Random.Range(-6f, 6f), Random.Range(-3f, 3f), 90);
         }
@@ -84,11 +95,50 @@ public class PanelGame : MonoBehaviour {
 
         // set up drag buttons in random places
         dragButtonGroup.gameObject.SetActive(true);
-        for(int i = 0; i < dragButtonGroup.childCount; i ++) {
+        for(int i = 0; i < buttonsAmount; i ++) {
             GameObject button = dragButtonGroup.GetChild(i).gameObject;
             button.transform.position = new Vector3(Random.Range(-6f, 6f), Random.Range(-3f, 3f), 90);
         }
 
+    }
+
+    private void Game2() {
+
+        currentGame = "leftgame";
+        textGO.GetComponent<TextMeshProUGUI>().text = "Leftgame " + ourObject;
+
+        foreach(SpriteRenderer panelSR in panelBacks) {
+            if(panelSR.gameObject.activeSelf) {
+                panelSR.sprite = leftSprite;
+            }
+        }
+
+        // set up drag buttons in random places
+        dragButtonGroup.gameObject.SetActive(true);
+        for(int i = 0; i < buttonsAmount; i ++) {
+            GameObject button = dragButtonGroup.GetChild(i).gameObject;
+            button.transform.position = new Vector3(Random.Range(-6f, 6f), Random.Range(-3f, 3f), 90);
+        }
+
+    }
+
+    private void Game3() {
+
+        currentGame = "rightgame";
+        textGO.GetComponent<TextMeshProUGUI>().text = "Rightgame " + ourObject;
+
+        foreach(SpriteRenderer panelSR in panelBacks) {
+            if(panelSR.gameObject.activeSelf) {
+                panelSR.sprite = rightSprite;
+            }
+        }
+
+        // set up drag buttons in random places
+        dragButtonGroup.gameObject.SetActive(true);
+        for(int i = 0; i < buttonsAmount; i ++) {
+            GameObject button = dragButtonGroup.GetChild(i).gameObject;
+            button.transform.position = new Vector3(Random.Range(-6f, 6f), Random.Range(-3f, 3f), 90);
+        }
 
     }
 
@@ -97,30 +147,64 @@ public class PanelGame : MonoBehaviour {
         switch(currentGame) {
 
             case "upgame" :
-                for(int i = 1; i < dragButtonGroup.childCount; i ++) {
+                for(int i = 1; i < buttonsAmount; i ++) {
                     float lastPos = dragButtonGroup.GetChild(i - 1).position.y;
                     float thisPos = dragButtonGroup.GetChild(i).position.y;
-                    if(thisPos > lastPos - 0.15f) {
+                    if(thisPos > lastPos - 0.25f || Input.GetMouseButton(0)) {
                         return;
                     }
                 }
-                panelM.ClosePanel();
+                Win();
 
             break;
 
             case "downgame" :
-                for(int i = 1; i < dragButtonGroup.childCount; i ++) {
+                for(int i = 1; i < buttonsAmount; i ++) {
                     float lastPos = dragButtonGroup.GetChild(i - 1).position.y;
                     float thisPos = dragButtonGroup.GetChild(i).position.y;
-                    if(thisPos < lastPos + 0.15f) {
+                    if(thisPos < lastPos + 0.25f || Input.GetMouseButton(0)) {
                         return;
                     }
                 }
-                panelM.ClosePanel();
+                Win();
+
+            break;
+
+            case "leftgame" :
+                for(int i = 1; i < buttonsAmount; i ++) {
+                    float lastPos = dragButtonGroup.GetChild(i - 1).position.x;
+                    float thisPos = dragButtonGroup.GetChild(i).position.x;
+                    if(thisPos < lastPos + 0.25f || Input.GetMouseButton(0)) {
+                        return;
+                    }
+                }
+                Win();
+
+            break;
+
+            case "rightgame" :
+                for(int i = 1; i < buttonsAmount; i ++) {
+                    float lastPos = dragButtonGroup.GetChild(i - 1).position.x;
+                    float thisPos = dragButtonGroup.GetChild(i).position.x;
+                    if(thisPos > lastPos - 0.25f || Input.GetMouseButton(0)) {
+                        return;
+                    }
+                }
+                Win();
 
             break;
 
         }
+
+    }
+
+    void Win() {
+
+        if(!PanelManager.debuffsGO.activeSelf) {
+            PanelManager.debuffsGO.SetActive(true);
+        }
+        panelM.ClosePanel();
+        Debug.Log("win");
 
     }
 
