@@ -31,7 +31,7 @@ public class PanelGame : MonoBehaviour {
     
     private void OnEnable() {
         
-        textGO = GameObject.Instantiate(textPF, new Vector3(0, 0, 90), Quaternion.identity, GameObject.Find("Canvas").transform);
+        // textGO = GameObject.Instantiate(textPF, new Vector3(0, 0, 90), Quaternion.identity, GameObject.Find("Canvas").transform);
         
         switch(Random.Range(0, 4)) {
             case 0 :
@@ -65,11 +65,11 @@ public class PanelGame : MonoBehaviour {
     private void Game0() {
         
         currentGame = "upgame";
-        textGO.GetComponent<TextMeshProUGUI>().text = "Upgame " + ourObject;
+        // textGO.GetComponent<TextMeshProUGUI>().text = "Upgame " + ourObject;
 
         // set up drag buttons in random places
         dragButtonGroup.gameObject.SetActive(true);
-        for(int i = 0; i < 4; i ++) {
+        for(int i = 0; i < buttonsAmount; i ++) {
             GameObject button = dragButtonGroup.GetChild(i).gameObject;
             button.transform.position = new Vector3(Random.Range(-6f, 6f), Random.Range(-3f, 3f), 90);
         }
@@ -85,7 +85,7 @@ public class PanelGame : MonoBehaviour {
     private void Game1() {
 
         currentGame = "downgame";
-        textGO.GetComponent<TextMeshProUGUI>().text = "Downgame " + ourObject;
+        // textGO.GetComponent<TextMeshProUGUI>().text = "Downgame " + ourObject;
 
         foreach(SpriteRenderer panelSR in panelBacks) {
             if(panelSR.gameObject.activeSelf) {
@@ -105,7 +105,7 @@ public class PanelGame : MonoBehaviour {
     private void Game2() {
 
         currentGame = "leftgame";
-        textGO.GetComponent<TextMeshProUGUI>().text = "Leftgame " + ourObject;
+        // textGO.GetComponent<TextMeshProUGUI>().text = "Leftgame " + ourObject;
 
         foreach(SpriteRenderer panelSR in panelBacks) {
             if(panelSR.gameObject.activeSelf) {
@@ -125,7 +125,7 @@ public class PanelGame : MonoBehaviour {
     private void Game3() {
 
         currentGame = "rightgame";
-        textGO.GetComponent<TextMeshProUGUI>().text = "Rightgame " + ourObject;
+        // textGO.GetComponent<TextMeshProUGUI>().text = "Rightgame " + ourObject;
 
         foreach(SpriteRenderer panelSR in panelBacks) {
             if(panelSR.gameObject.activeSelf) {
@@ -204,7 +204,6 @@ public class PanelGame : MonoBehaviour {
             PanelManager.debuffsGO.SetActive(true);
         }
         panelM.ClosePanel();
-        Debug.Log("win");
 
     }
 

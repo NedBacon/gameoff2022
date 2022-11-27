@@ -24,7 +24,7 @@ public class DragButton : MonoBehaviour {
         if(tempMousePos.x > 6.5f || tempMousePos.x < -6.5f) {
             posDiff.x = 0;
         }
-        if(tempMousePos.y > 3.5f || tempMousePos.y < -3.5f) {
+        if(tempMousePos.y > 3.5f || tempMousePos.y < -2.8f) {
             posDiff.y = 0;
         }
         this.transform.position += posDiff;
