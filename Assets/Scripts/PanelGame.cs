@@ -12,11 +12,13 @@ public class PanelGame : MonoBehaviour {
     public Sprite leftSprite;
     public Sprite rightSprite;
     public GameObject textPF;
+    public GameObject iconWin;
     PanelManager panelM;
     private Transform dragButtonGroup;
     private GameObject textGO;
     private string currentGame;
     public static int buttonsAmount;
+    public static bool allCollected;
 
     private void Awake() {
         
@@ -26,6 +28,7 @@ public class PanelGame : MonoBehaviour {
         panelM = GameObject.Find("_Manager").GetComponent<PanelManager>();
 
         buttonsAmount = 5;
+        allCollected = false;
 
     }
     
@@ -202,6 +205,9 @@ public class PanelGame : MonoBehaviour {
 
         if(!PanelManager.debuffsGO.activeSelf) {
             PanelManager.debuffsGO.SetActive(true);
+        }
+        if(allCollected) {
+            iconWin.SetActive(true);
         }
         panelM.ClosePanel();
 
