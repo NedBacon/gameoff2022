@@ -11,7 +11,7 @@ public class Debuffs : MonoBehaviour {
     public List<string> debuffs;
     private bool hungover;
     private bool hangoverDirection;
-    private List<int> asdf; 
+    public List<int> asdf; 
     private bool cogging;
 
     public Image colorTint;
@@ -40,7 +40,7 @@ public class Debuffs : MonoBehaviour {
 
         slider.value += Time.deltaTime / seconds;
 
-        if(asdf.Contains(0) && asdf.Contains(1) && asdf.Contains(2) && asdf.Contains(3)
+        if(asdf.Contains(0) && asdf.Contains(1) && asdf.Contains(2)
         && asdf.Contains(4) && asdf.Contains(5) && asdf.Contains(6) && asdf.Contains(7) && asdf.Contains(8)) {
             PanelGame.allCollected = true;
         }
@@ -112,7 +112,7 @@ public class Debuffs : MonoBehaviour {
             debuffs.Add("tired");
         }
         if(PanelGame.buttonsAmount == 7) {
-            debuffs.Add("nothing");
+            // debuffs.Add("nothing");
             debuffs.Add("speed");
         }
         announceGO.GetComponentInChildren<TextMeshProUGUI>().text = PanelGame.buttonsAmount + " Tiles!";
@@ -121,25 +121,39 @@ public class Debuffs : MonoBehaviour {
 
     void DebuffColor() {
 
-        iconColor.SetActive(true);
+        if(!iconColor.activeSelf) {
+            iconColor.SetActive(true); 
+        }
         switch(Random.Range(0, 3)) {
             case 0 :
-                asdf.Add(0);
-                colorTint.color = new Color(0.7f, 0, 0.7f, 0.4f); // purple
-                announceGO.GetComponentInChildren<TextMeshProUGUI>().text = "PURPLE!";
-                iconColor.GetComponent<Image>().color = new Color(0.7f, 0, 0.7f);
+                if((!asdf.Contains(0)) || (debuffs.Count > 3) || (debuffs.Count == 1)) {
+                    asdf.Add(0);
+                    colorTint.color = new Color(0.7f, 0, 0.7f, 0.6f); // purple
+                    announceGO.GetComponentInChildren<TextMeshProUGUI>().text = "PURPLE!";
+                    iconColor.GetComponent<Image>().color = new Color(0.7f, 0, 0.7f);
+                } else {
+                    DebuffColor();
+                }
             break;
             case 1 :
-                asdf.Add(1);
-                colorTint.color = new Color(0.7f, 0.7f, 0, 0.4f); // yellow
-                announceGO.GetComponentInChildren<TextMeshProUGUI>().text = "YELLOW!";
-                iconColor.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0);
+                if((!asdf.Contains(1)) || (debuffs.Count > 3) || (debuffs.Count == 1)) {
+                    asdf.Add(1);
+                    colorTint.color = new Color(0.7f, 0.7f, 0, 0.6f); // yellow
+                    announceGO.GetComponentInChildren<TextMeshProUGUI>().text = "YELLOW!";
+                    iconColor.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0);
+                } else {
+                    DebuffColor();
+                }
             break;
             case 2 :
-                asdf.Add(2);
-                colorTint.color = new Color(0.7f, 0.35f, 0, 0.4f); // orange
-                announceGO.GetComponentInChildren<TextMeshProUGUI>().text = "ORANGE!";
-                iconColor.GetComponent<Image>().color = new Color(0.7f, 0.35f, 0);
+                if((!asdf.Contains(2)) || (debuffs.Count > 3) || (debuffs.Count == 1)) {
+                    asdf.Add(2);
+                    colorTint.color = new Color(0.7f, 0.35f, 0, 0.6f); // orange
+                    announceGO.GetComponentInChildren<TextMeshProUGUI>().text = "ORANGE!";
+                    iconColor.GetComponent<Image>().color = new Color(0.7f, 0.35f, 0);
+                } else {
+                    DebuffColor();
+                }
             break;
         }
 
